@@ -6,6 +6,7 @@ import { Close as CloseIcon } from '@styled-icons/material-outlined/Close'
 import * as S from './styles'
 import Logo from 'components/Logo'
 import Button from 'components/Button'
+import MediaMatch from 'components/MediaMatch'
 
 // [x] Colocar os itens na ordem que se parecem do design
 // [x]Criar Icon Wrapper
@@ -20,12 +21,23 @@ const Menu = ({ userName }: MenuProps) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <S.Wrapper>
-      <S.IconWrapper onClick={() => setIsOpen(true)}>
-        <MenuIcon aria-label="Open Menu" />
-      </S.IconWrapper>
+      <MediaMatch lessThan="medium">
+        <S.IconWrapper onClick={() => setIsOpen(true)}>
+          <MenuIcon aria-label="Open Menu" />
+        </S.IconWrapper>
+      </MediaMatch>
+
       <S.LogoWrapper>
         <Logo hideOnMobile />
       </S.LogoWrapper>
+
+      <MediaMatch greaterThen="medium">
+        <S.MenuNav>
+          <S.MenuLink href="#">Home</S.MenuLink>
+          <S.MenuLink href="#">Explorer</S.MenuLink>
+        </S.MenuNav>
+      </MediaMatch>
+
       <S.MenuGroup>
         <S.IconWrapper>
           <SearchIcon aria-label="Search" />
@@ -33,6 +45,9 @@ const Menu = ({ userName }: MenuProps) => {
         <S.IconWrapper>
           <ShoppingCartIcon aria-label="Open shopping cart" />
         </S.IconWrapper>
+        <MediaMatch greaterThen="medium">
+          {!userName && <Button>Sing in</Button>}
+        </MediaMatch>
       </S.MenuGroup>
       <S.MenuFull isOpen={isOpen} aria-hidden={!isOpen}>
         <CloseIcon aria-label="Close menu" onClick={() => setIsOpen(false)} />
